@@ -436,7 +436,6 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   <div class="stage">
     <main class="screen" id="screen">
       <section class="view" id="vToday">
-        <div class="seg" id="homeMode" style="align-self:flex-start"><button type="button" data-v="home">🏠 Нүүр</button><button type="button" data-v="more">✨ Дадал ба дүн</button></div>
         <div class="card miss" id="missCard" hidden role="status"><div class="row" style="justify-content:space-between"><div class="label">⏰ Алдсан сануулга</div><button class="btn ghost sm" id="missClose" type="button">Ойлголоо</button></div><div id="missList"></div></div>
         <div class="hero" aria-live="polite">
           <div class="hrow"><div style="min-width:0;flex:1"><div class="label" id="nowLabel">Одоо</div><div class="title" id="nowTitle">—</div></div><div id="heroRing" class="hring"></div></div>
@@ -2076,13 +2075,9 @@ function openProfile(){const P=profO();if(!P.since){P.since=ymd(today0());save()
 
 // ---- Today split: "Нүүр" (goals, week strip, day plan) vs "Дадал ба дүн" (everything else)
 (function(){const b=$("alarmBtn");if(b&&b.parentElement&&!$("alarmRow")){const r=b.parentElement;r.id="alarmRow";$("week").parentElement.insertBefore(r,$("week"))}})();
-let homeMode=lsg("wp-home","home")==="more"?"more":"home";
-function setHome(m){if(m)homeMode=m;lss("wp-home",homeMode);const mv=homeMode==="more";
-  const onlyHome=[$("alarmRow"),$("week"),$("daySlotToday")];
-  const onlyMore=[document.querySelector("#vToday .hero"),$("qaForm"),$("rvBanner"),$("habits")&&$("habits").parentElement,$("goalCard"),$("coachCard"),$("allocCard"),$("statCard"),$("cdCard")];
-  onlyHome.forEach(e=>e&&e.classList.toggle("hm-off",mv));onlyMore.forEach(e=>e&&e.classList.toggle("hm-off",!mv));
-  $("homeMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===homeMode))}
-$("homeMode").querySelectorAll("button").forEach(b=>b.onclick=()=>setHome(b.dataset.v));
+function setHome(){
+  const hide=[document.querySelector("#vToday .hero"),$("qaForm"),$("rvBanner"),$("habits")&&$("habits").parentElement,$("coachCard"),$("allocCard"),$("statCard"),$("cdCard")];
+  hide.forEach(e=>e&&e.classList.add("hm-off"))}
 (function(){const s=document.createElement("style");s.textContent=".hm-off{display:none!important}";document.head.appendChild(s)})();
 renderAll();setInterval(()=>{tick()},5000);initStore();
 </script>
