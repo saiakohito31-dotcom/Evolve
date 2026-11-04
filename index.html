@@ -954,6 +954,9 @@ function migrate(p){if(!p||typeof p!=="object"||!Array.isArray(p.items))return n
   if(p.settings&&isO(p.settings)){const B=p.settings.budget;if(B!=null){const o={};if(isO(B))Object.keys(B).slice(0,40).forEach(k=>{const v=Math.round(+B[k]);if(v>0&&v<=100)o[str(k,40)]=v});p.settings.budget=o}
     if(p.settings.coachM!=null&&!/^\d{2}:\d{2}$/.test(String(p.settings.coachM)))p.settings.coachM="08:00";if(p.settings.coachE!=null&&!/^\d{2}:\d{2}$/.test(String(p.settings.coachE)))p.settings.coachE="21:00"}
   if(p.profile!=null){const P=isO(p.profile)?p.profile:{};p.profile={name:typeof P.name==="string"?P.name.slice(0,24):"",emoji:typeof P.emoji==="string"?P.emoji.slice(0,8):"",role:["student","worker","pupil","other"].includes(P.role)?P.role:"",motto:typeof P.motto==="string"?P.motto.slice(0,60):"",since:D.test(String(P.since))?String(P.since):""}}
+  if(p.habits&&isO(p.habits)&&Array.isArray(p.habits.list)){const L=p.habits.list,lg=p.habits.log;const untouched=!lg||(isO(lg)&&!Object.keys(lg).length);
+    const DEFN={h1:"💪 Фитнес",h2:"😴 24:00-с өмнө унтах",h3:"📓 Журнал бөглөх"};
+    if(untouched)p.habits.list=L.filter(h=>!(h&&DEFN[h.id]&&h.name===DEFN[h.id]))}
   p.v=2;return p}
 function setStatus(){const el=$("status");if(!el)return;
   el.textContent=store.kind==="cloud"?"Хадгалалт: энэ төхөөрөмж + таны бүртгэл (cloud). Бусад төхөөрөмж дээр ч харагдана.":store.kind==="db"?"Хадгалалт: таны бүртгэлд — бусад төхөөрөмж дээр ч харагдана.":"Хадгалалт: зөвхөн энэ төхөөрөмж дээр"+(cloudReady()?" · нэвтэрвэл бусад төхөөрөмж рүү синк болно.":" — өөр төхөөрөмж дээр харагдахгүй.")}
@@ -1441,7 +1444,7 @@ function pct(days){let a=0,b=0;days.forEach(d=>occ(d).forEach(o=>{b++;if(plan.do
 function renderRing(){const el=$("heroRing");if(!el)return;const t=new Date();const td=pct([t]);const mon=addDays(t,-wsOff(t));const wk=pct([0,1,2,3,4,5,6].map(k=>addDays(mon,k)));
   el.innerHTML=ringSVG(td.p)+`<span>${td.a}/${td.b} · 7х ${Math.round(wk.p*100)}%</span>`;el.title="Өнөөдрийн явц"}
 // ===== habits
-function H(){if(!plan.habits)plan.habits={list:[{id:"h1",name:"💪 Фитнес"},{id:"h2",name:"😴 24:00-с өмнө унтах"},{id:"h3",name:"📓 Журнал бөглөх"}],log:{}};return plan.habits}
+function H(){if(!plan.habits)plan.habits={list:[],log:{}};return plan.habits}
 function streak(hid){const L=H().log;let d=new Date();d=new Date(d.getFullYear(),d.getMonth(),d.getDate());if(!(L[ymd(d)]||{})[hid])d=addDays(d,-1);let n=0;while((L[ymd(d)]||{})[hid]){n++;d=addDays(d,-1)}return n}
 let hEditing=false;
 function renderHabits(){const box=$("habits");if(!box)return;const h=H();const k=ymd(new Date());box.innerHTML="";$("hAddRow").hidden=!hEditing;$("hEdit").textContent=hEditing?"Болсон":"Засах";
