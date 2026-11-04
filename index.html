@@ -2098,6 +2098,21 @@ function setHome(){
   $("alarmBtn").onclick=async()=>{if(!alarmOn){await setAlarm(true);draw();P.hidden=false}else{P.hidden=!P.hidden;if(!P.hidden===true)draw()}};
   const _hm=setHome;
 })();
+
+// ---- Insights: add / remove habits in place
+let insDel=false;
+function delHabit(id){const h=H();h.list=h.list.filter(x=>x.id!==id);Object.keys(h.log).forEach(k=>{if(h.log[k]&&h.log[k][id]){delete h.log[k][id];if(!Object.keys(h.log[k]).length)delete h.log[k]}});goalsL().forEach(g=>{g.hids=(g.hids||[]).filter(x=>x!==id)});save()}
+function insMgr(){const ch=$("insChips");if(!ch)return;let m=$("insMgr");if(!m){m=mkE("div","card");m.id="insMgr";m.style.gap="10px";ch.parentElement.insertBefore(m,ch.nextSibling)}m.innerHTML="";
+  const row=mkE("div","row");row.style.flexWrap="nowrap";const inp=mkE("input");inp.type="text";inp.maxLength=40;inp.placeholder="＋ Шинэ дадал (жишээ: 📚 30 мин ном унших)";inp.setAttribute("aria-label","Шинэ дадал");inp.style.flex="1";inp.style.minWidth="0";
+  const add=mkE("button","btn sm","Нэмэх");add.type="button";
+  const doAdd=()=>{const v=inp.value.trim();if(!v)return;const L=H().list;if(L.length>=30){toast("30 хүртэл дадал");return}if(L.some(x=>x.name===v)){toast("Ийм дадал байна");return}
+    const id=uid();L.push({id:"h"+id,name:v.slice(0,40),color:HCOL[L.length%HCOL.length]});save();insSel="h"+id;lss("wp-ins",insSel);renderAll()};
+  add.onclick=doAdd;inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();doAdd()}};row.append(inp,add);m.appendChild(row);
+  if(H().list.length){const tg=mkE("button","btn ghost sm",insDel?"Болсон":"🗑 Дадал устгах");tg.type="button";tg.style.alignSelf="flex-start";tg.onclick=()=>{insDel=!insDel;insMgr()};m.appendChild(tg);
+    if(insDel){H().list.forEach(x=>{const r=mkE("div","setrow");r.appendChild(mkE("div","lbl",x.name));const d=mkE("button","btn ghost sm","Устгах");d.type="button";arm(d,"Дахин дар",()=>{delHabit(x.id);renderAll()});r.appendChild(d);m.appendChild(r)});
+      m.appendChild(mkE("div","hint","Устгахад тухайн дадлын түүх, зорилгод холбосон холбоос мөн арилна."))}}
+  else{insDel=false}}
+{const _ri=renderInsights;renderInsights=function(){_ri.apply(this,arguments);insMgr()}}
 renderAll();setInterval(()=>{tick()},5000);initStore();
 </script>
 </body>
