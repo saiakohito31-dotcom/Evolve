@@ -451,12 +451,14 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <div class="hadd" id="hAddRow" hidden><input id="hNew" type="text" maxlength="24" placeholder="Жишээ: 📚 30 мин ном унших" aria-label="Шинэ дадал"><button class="btn sm" id="hAdd" type="button">Нэмэх</button></div>
         </div>
         <div class="card" id="coachCard" hidden><button type="button" class="pstrip" id="dayStrip" aria-expanded="false"></button><div id="coachBody" class="col" style="gap:10px" hidden></div></div>
-        <div class="card" id="goalCard"><div class="label">🎯 Зорилго ба ахиц</div><div id="goalList" class="col" style="gap:10px"></div></div>
         <div class="card" id="allocCard" hidden><div class="label">⚖️ Цагийн хуваарилалт · энэ 7 хоног</div><div id="allocList"></div><div id="allocWarn" class="col" style="gap:8px"></div></div>
         <div class="card" id="statCard" hidden><div class="label">📊 Нийт статистик</div><div id="statList"></div></div>
         <div class="card" id="cdCard" hidden><div class="label">⏳ Чухал өдрүүд</div><div id="cdList"></div></div>
         <div class="week" id="week"></div>
         <div id="daySlotToday"></div>
+      </section>
+      <section class="view" id="vGoals" hidden>
+        <div class="card" id="goalCard"><div class="label">🎯 Зорилго ба ахиц</div><div id="goalList" class="col" style="gap:10px"></div></div>
       </section>
       <section class="view" id="vCal" hidden>
         <div class="seg" id="calMode" style="align-self:flex-start"><button type="button" data-v="week">7 хоног</button><button type="button" data-v="month">Сар</button></div>
@@ -549,6 +551,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <button type="button" class="fbtn" id="profBtn"><span class="ic">👤</span><span class="nm">Профайл</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="notes" data-tab="notes"><span class="ic">📝</span><span class="nm">Тэмдэглэл</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="trade" data-tab="trade"><span class="ic" id="jIcon2">📓</span><span class="nm" id="jTab2">Журнал</span><span class="chev">›</span></button>
+          <button type="button" class="fbtn" data-go="goals" data-tab="goals"><span class="ic">🎯</span><span class="nm">Зорилго ба ахиц</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="life" data-tab="life"><span class="ic">🧭</span><span class="nm">Зорилго</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="settings"><span class="ic">⚙︎</span><span class="nm">Тохиргоо</span><span class="chev">›</span></button>
         </div>
@@ -1372,18 +1375,18 @@ $("moveSel").onchange=()=>{const n=curNote();n.folder=$("moveSel").value;touch(n
 arm($("delNote"),"Дахин дар",()=>{const N=notes();const n0=curNote();N.items=N.items.filter(i=>i.id!==nav.n);save();go({tab:"notes",f:nav.f},true);
   toast("Устгагдлаа",{label:"Буцаах",fn:()=>{const NN=notes();if(n0&&!NN.items.some(i=>i.id===n0.id)){NN.items.push(n0);save();renderAll()}}})});
 // ===== router
-const VIEWS=["vToday","vCal","vNotesHome","vNotes","vEditor","vLife","vTrade","vSettings","vHabits","vInsights","vMore"];
-const MORE_TABS=["notes","trade","life"];
-function currentView(){if(nav.tab==="settings")return"vSettings";if(nav.tab==="habits")return"vHabits";if(nav.tab==="insights")return"vInsights";if(nav.tab==="more")return"vMore";if(MORE_TABS.includes(nav.tab)&&S().tabs[nav.tab]===false)nav.tab="more";if(nav.tab==="cal")return"vCal";if(nav.tab==="life")return"vLife";if(nav.tab==="trade")return"vTrade";if(nav.tab==="notes"){if(nav.n&&curNote())return"vEditor";if(nav.f&&notes().folders.some(f=>f.id===nav.f))return"vNotes";return"vNotesHome"}return"vToday"}
+const VIEWS=["vToday","vGoals","vCal","vNotesHome","vNotes","vEditor","vLife","vTrade","vSettings","vHabits","vInsights","vMore"];
+const MORE_TABS=["notes","trade","life","goals"];
+function currentView(){if(nav.tab==="settings")return"vSettings";if(nav.tab==="habits")return"vHabits";if(nav.tab==="insights")return"vInsights";if(nav.tab==="more")return"vMore";if(MORE_TABS.includes(nav.tab)&&S().tabs[nav.tab]===false)nav.tab="more";if(nav.tab==="goals")return"vGoals";if(nav.tab==="cal")return"vCal";if(nav.tab==="life")return"vLife";if(nav.tab==="trade")return"vTrade";if(nav.tab==="notes"){if(nav.n&&curNote())return"vEditor";if(nav.f&&notes().folders.some(f=>f.id===nav.f))return"vNotes";return"vNotesHome"}return"vToday"}
 function go(next,back){const prevTab=nav.tab;nav={tab:next.tab,f:next.f||null,n:next.n||null,back:next.back||null};lss("wp-nav",JSON.stringify(nav));renderRoute(back);if(prevTab!==nav.tab||true)$("screen").scrollTop=0}
 function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null;nav.n=null}else if(v==="vNotes")nav.n=null;
   VIEWS.forEach(id=>{const el=$(id);const on=id===v;el.hidden=!on;if(on){el.classList.toggle("back",!!back);el.style.animation="none";el.offsetHeight;el.style.animation=""}});
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===nav.tab||(b.dataset.tab==="more"&&(MORE_TABS.includes(nav.tab)||nav.tab==="settings"))));
   const fo=notes().folders.find(x=>x.id===nav.f);
-  $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
-  $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife"].includes(v));$("setBtn").hidden=v==="vSettings";
-  const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
-  if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderGoals();renderAlloc();renderStats();renderTop();setHome()}
+  $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vGoals:"Зорилго ба ахиц",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
+  $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife","vGoals"].includes(v));$("setBtn").hidden=v==="vSettings";
+  const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vGoals:"Зорилго нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
+  if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderAlloc();renderStats();renderTop();setHome()}if(v==="vGoals")renderGoals();
   if(v==="vCal"){renderCalMode()}
   if(v!=="vToday"&&!(v==="vCal"&&calMode==="month"))$("parking").appendChild($("dayBlock"));if(v==="vHabits")renderHGrid();if(v==="vInsights")renderInsights();
   if(v==="vNotesHome")renderFolders();if(v==="vNotes")renderNotes();if(v==="vEditor")renderEditor();if(v==="vLife")renderLife();if(v==="vTrade")renderJournal();if(v==="vSettings")renderSettings();syncHist()}
@@ -1392,7 +1395,7 @@ document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>{if(b.datas
   go({tab:b.dataset.tab,f:b.dataset.tab==="notes"?nav.f:null,n:b.dataset.tab==="notes"?nav.n:null})});
 function appBack(){const b=$("backBtn");if(b.hidden)return false;b.onclick();return true}
 $("backBtn").onclick=()=>{if(nav.tab==="settings"){go(nav.back&&nav.back.tab!=="settings"?nav.back:{tab:"more"},true);return}if(nav.tab==="notes"&&nav.n)go({tab:"notes",f:nav.f},true);else if(nav.tab==="notes"&&nav.f)go({tab:"notes"},true);else go({tab:"more"},true)};
-$("fab").onclick=()=>{const v=currentView();if(v==="vToday"||v==="vCal")openEvent(null);else if(v==="vNotesHome")newFolder();else if(v==="vNotes")newNote();else if(v==="vLife")addLifeRow();else if(v==="vTrade"){jKind==="trade"?openTrade(null):openJ(null)}else if(v==="vHabits")addHabitInline()};
+$("fab").onclick=()=>{const v=currentView();if(v==="vToday"||v==="vCal")openEvent(null);else if(v==="vNotesHome")newFolder();else if(v==="vNotes")newNote();else if(v==="vLife")addLifeRow();else if(v==="vTrade"){jKind==="trade"?openTrade(null):openJ(null)}else if(v==="vHabits")addHabitInline();else if(v==="vGoals")openGoalEditor(null)};
 // ===== settings
 function applySettings(){const st=S();const r=document.documentElement;
   if(st.theme==="system")r.removeAttribute("data-theme");else r.setAttribute("data-theme",st.theme);
@@ -2010,7 +2013,7 @@ function openGuide(step,st){st=st||{p:"student",keys:[],m:3};const box=$("onbBod
     const go1=full(mkE("button","btn","Хуваарь үүсгэх ›"));go1.onclick=()=>{if(!st.keys.length){toast("Дор хаяж 1 зорилго сонгоно уу");return}openGuide(3,st)};box.appendChild(go1)}
   else{const n=buildStarter(st.p,st.keys,st.m);plan.onboarded=1;save();renderAll();
     box.append(mkE("div","onbi","✅"),mkE("h2","onbt",n+" зорилго бэлэн"),mkE("p","onbp","Дадлууд «Дадал» цэсэнд, цагийн блокууд хуваарьт орлоо. Өдөр бүр «Өнөөдөр» дээр ахиц, өдрийн дүн харагдана. Цагийг нь өөрийнхөөрөө зас."));
-    const g=full(mkE("button","btn","Эхэлцгээе"));g.onclick=()=>{closeModal();go({tab:"today"})};box.appendChild(g)}
+    const g=full(mkE("button","btn","Эхэлцгээе"));g.onclick=()=>{closeModal();go({tab:"goals"})};box.appendChild(g)}
   if(openSheetEl!==$("onb"))openModal($("onb"))}
 
 // ---- settings card: coach times + time budget
