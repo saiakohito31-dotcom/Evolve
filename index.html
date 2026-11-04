@@ -1384,7 +1384,7 @@ function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===nav.tab||(b.dataset.tab==="more"&&(MORE_TABS.includes(nav.tab)||nav.tab==="settings"))));
   const fo=notes().folders.find(x=>x.id===nav.f);
   $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vGoals:"Зорилго ба ахиц",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
-  $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife","vHabits"].includes(v));$("setBtn").hidden=v==="vSettings";
+  $("backBtn").hidden=!(v!=="vToday");$("setBtn").hidden=v==="vSettings";
   const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vGoals:"Зорилго нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
   if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderAlloc();renderStats();renderTop();setHome()}if(v==="vGoals")renderGoals();
   if(v==="vCal"){renderCalMode()}
@@ -1394,7 +1394,7 @@ document.querySelectorAll(".tabbar button").forEach(b=>b.onclick=()=>{if(b.datas
   if(b.dataset.tab==="today"){const t=new Date();sel=new Date(t.getFullYear(),t.getMonth(),t.getDate());view=new Date(t.getFullYear(),t.getMonth(),1)}
   go({tab:b.dataset.tab,f:b.dataset.tab==="notes"?nav.f:null,n:b.dataset.tab==="notes"?nav.n:null})});
 function appBack(){const b=$("backBtn");if(b.hidden)return false;b.onclick();return true}
-$("backBtn").onclick=()=>{if(nav.tab==="settings"){go(nav.back&&nav.back.tab!=="settings"?nav.back:{tab:"more"},true);return}if(nav.tab==="notes"&&nav.n)go({tab:"notes",f:nav.f},true);else if(nav.tab==="notes"&&nav.f)go({tab:"notes"},true);else go({tab:"more"},true)};
+$("backBtn").onclick=()=>{if(["goals","cal","insights","more"].includes(nav.tab)){go({tab:"today"},true);return}if(nav.tab==="settings"){go(nav.back&&nav.back.tab!=="settings"?nav.back:{tab:"more"},true);return}if(nav.tab==="notes"&&nav.n)go({tab:"notes",f:nav.f},true);else if(nav.tab==="notes"&&nav.f)go({tab:"notes"},true);else go({tab:"more"},true)};
 $("fab").onclick=()=>{const v=currentView();if(v==="vToday"||v==="vCal")openEvent(null);else if(v==="vNotesHome")newFolder();else if(v==="vNotes")newNote();else if(v==="vLife")addLifeRow();else if(v==="vTrade"){jKind==="trade"?openTrade(null):openJ(null)}else if(v==="vHabits")addHabitInline();else if(v==="vGoals")openGoalEditor(null)};
 // ===== settings
 function applySettings(){const st=S();const r=document.documentElement;
@@ -2082,6 +2082,19 @@ function setHome(){
   const hide=[document.querySelector("#vToday .hero"),$("qaForm"),$("rvBanner"),$("habits")&&$("habits").parentElement,$("coachCard"),$("allocCard"),$("statCard"),$("cdCard")];
   hide.forEach(e=>e&&e.classList.add("hm-off"))}
 (function(){const s=document.createElement("style");s.textContent=".hm-off{display:none!important}";document.head.appendChild(s)})();
+
+// ---- alarm button: tap opens a drop-down with the alarm sounds
+(function(){const row=$("alarmRow");if(!row)return;const P=mkE("div","card");P.id="sndPanel";P.hidden=true;
+  const head=mkE("div","row");head.style.justifyContent="space-between";head.appendChild(mkE("div","label","Сэрүүлгийн дуу"));
+  const off=mkE("button","btn ghost sm","🔕 Сэрүүлэг унтраах");off.type="button";off.onclick=()=>{setAlarm(false);P.hidden=true};head.appendChild(off);P.appendChild(head);
+  const L=mkE("div","sounds");L.id="sndQuick";L.style.maxHeight="300px";L.style.overflowY="auto";P.appendChild(L);
+  const draw=()=>{L.innerHTML="";const cur=S().sound;SOUNDS.forEach((nm,k)=>{const l=document.createElement("label");const i=document.createElement("input");i.type="radio";i.name="sndq";i.checked=cur===k;i.id="snq"+k;
+    const sp=mkE("span","nm",nm);const pb=mkE("button","btn ghost sm","▶ Сонсох");pb.type="button";pb.onclick=e=>{e.preventDefault();beep(1,k)};
+    i.onchange=()=>{S().sound=k;save();beep(1,k)};l.append(i,sp,pb);L.appendChild(l)})};
+  row.parentElement.insertBefore(P,row.nextSibling);
+  $("alarmBtn").onclick=async()=>{if(!alarmOn){await setAlarm(true);draw();P.hidden=false}else{P.hidden=!P.hidden;if(!P.hidden===true)draw()}};
+  const _hm=setHome;
+})();
 renderAll();setInterval(()=>{tick()},5000);initStore();
 </script>
 </body>
