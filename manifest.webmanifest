@@ -1,0 +1,32 @@
+{
+  "name": "Evolve",
+  "short_name": "Evolve",
+  "description": "Өдөр, 7 хоног, дадал, тэмдэглэл, журнал — нэг дор. Сэрүүлэг, сануулгатай.",
+  "id": "./",
+  "start_url": "./?src=pwa",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "portrait",
+  "background_color": "#060908",
+  "theme_color": "#060908",
+  "lang": "mn",
+  "dir": "ltr",
+  "categories": ["productivity", "lifestyle"],
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Шинэ ажил", "short_name": "Шинэ ажил", "url": "./?a=new", "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Дадал", "short_name": "Дадал", "url": "./?a=habits", "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }] },
+    { "name": "Өнөөдрийн журнал", "short_name": "Журнал", "url": "./?a=journal", "icons": [{ "src": "icon-192.png", "sizes": "192x192", "type": "image/png" }] }
+  ],
+  "share_target": {
+    "action": "./",
+    "method": "GET",
+    "enctype": "application/x-www-form-urlencoded",
+    "params": { "title": "st", "text": "sx", "url": "su" }
+  }
+}
