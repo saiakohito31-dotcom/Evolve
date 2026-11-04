@@ -551,7 +551,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <button type="button" class="fbtn" id="profBtn"><span class="ic">👤</span><span class="nm">Профайл</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="notes" data-tab="notes"><span class="ic">📝</span><span class="nm">Тэмдэглэл</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="trade" data-tab="trade"><span class="ic" id="jIcon2">📓</span><span class="nm" id="jTab2">Журнал</span><span class="chev">›</span></button>
-          <button type="button" class="fbtn" data-go="goals" data-tab="goals"><span class="ic">🎯</span><span class="nm">Зорилго ба ахиц</span><span class="chev">›</span></button>
+          <button type="button" class="fbtn" data-go="habits" data-tab="habits"><span class="ic">🟢</span><span class="nm">Дадал</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="life" data-tab="life"><span class="ic">🧭</span><span class="nm">Зорилго</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="settings"><span class="ic">⚙︎</span><span class="nm">Тохиргоо</span><span class="chev">›</span></button>
         </div>
@@ -618,7 +618,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   </div>
   <nav class="tabbar" role="tablist" aria-label="Үндсэн цэс">
     <button type="button" role="tab" data-tab="today"><span class="ic">☀️</span>Өнөөдөр</button>
-    <button type="button" role="tab" data-tab="habits"><span class="ic">🟢</span>Дадал</button>
+    <button type="button" role="tab" data-tab="goals"><span class="ic">🎯</span>Зорилго</button>
     <button type="button" role="tab" data-tab="cal"><span class="ic">📅</span>Ажил</button>
     <button type="button" role="tab" data-tab="insights"><span class="ic">📈</span>Insights</button>
     <button type="button" role="tab" data-tab="more"><span class="ic">☰</span>Бусад</button>
@@ -1376,7 +1376,7 @@ arm($("delNote"),"Дахин дар",()=>{const N=notes();const n0=curNote();N.i
   toast("Устгагдлаа",{label:"Буцаах",fn:()=>{const NN=notes();if(n0&&!NN.items.some(i=>i.id===n0.id)){NN.items.push(n0);save();renderAll()}}})});
 // ===== router
 const VIEWS=["vToday","vGoals","vCal","vNotesHome","vNotes","vEditor","vLife","vTrade","vSettings","vHabits","vInsights","vMore"];
-const MORE_TABS=["notes","trade","life","goals"];
+const MORE_TABS=["notes","trade","life","habits"];
 function currentView(){if(nav.tab==="settings")return"vSettings";if(nav.tab==="habits")return"vHabits";if(nav.tab==="insights")return"vInsights";if(nav.tab==="more")return"vMore";if(MORE_TABS.includes(nav.tab)&&S().tabs[nav.tab]===false)nav.tab="more";if(nav.tab==="goals")return"vGoals";if(nav.tab==="cal")return"vCal";if(nav.tab==="life")return"vLife";if(nav.tab==="trade")return"vTrade";if(nav.tab==="notes"){if(nav.n&&curNote())return"vEditor";if(nav.f&&notes().folders.some(f=>f.id===nav.f))return"vNotes";return"vNotesHome"}return"vToday"}
 function go(next,back){const prevTab=nav.tab;nav={tab:next.tab,f:next.f||null,n:next.n||null,back:next.back||null};lss("wp-nav",JSON.stringify(nav));renderRoute(back);if(prevTab!==nav.tab||true)$("screen").scrollTop=0}
 function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null;nav.n=null}else if(v==="vNotes")nav.n=null;
@@ -1384,7 +1384,7 @@ function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===nav.tab||(b.dataset.tab==="more"&&(MORE_TABS.includes(nav.tab)||nav.tab==="settings"))));
   const fo=notes().folders.find(x=>x.id===nav.f);
   $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vGoals:"Зорилго ба ахиц",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
-  $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife","vGoals"].includes(v));$("setBtn").hidden=v==="vSettings";
+  $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife","vHabits"].includes(v));$("setBtn").hidden=v==="vSettings";
   const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vGoals:"Зорилго нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
   if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderAlloc();renderStats();renderTop();setHome()}if(v==="vGoals")renderGoals();
   if(v==="vCal"){renderCalMode()}

@@ -1,5 +1,5 @@
 /* Evolve — service worker. Хувилбарыг build хийх үед тэмдэглэнэ. */
-const VERSION = "c75f411b87";
+const VERSION = "169db6d4e7";
 const CACHE = "tol-" + VERSION;
 const PRECACHE = ["index.html", "manifest.webmanifest", "fonts.css", "privacy.html", "firebase-config.js", "firebase-bundle.js", "icon-192.png", "icon-512.png", "icon-maskable-512.png", "apple-touch-icon.png", "badge-96.png", "favicon-32.png", "font-unbounded-cyrillic-500.woff2", "font-unbounded-cyrillic-ext-500.woff2", "font-unbounded-latin-500.woff2", "font-unbounded-cyrillic-700.woff2", "font-unbounded-cyrillic-ext-700.woff2", "font-unbounded-latin-700.woff2", "font-ibm-plex-sans-cyrillic-400.woff2", "font-ibm-plex-sans-cyrillic-ext-400.woff2", "font-ibm-plex-sans-latin-400.woff2", "font-ibm-plex-sans-cyrillic-500.woff2", "font-ibm-plex-sans-cyrillic-ext-500.woff2", "font-ibm-plex-sans-latin-500.woff2", "font-ibm-plex-sans-cyrillic-600.woff2", "font-ibm-plex-sans-cyrillic-ext-600.woff2", "font-ibm-plex-sans-latin-600.woff2", "font-jetbrains-mono-cyrillic-500.woff2", "font-jetbrains-mono-cyrillic-ext-500.woff2", "font-jetbrains-mono-latin-500.woff2", "font-caveat-cyrillic-500.woff2", "font-caveat-cyrillic-ext-500.woff2", "font-caveat-latin-500.woff2", "font-caveat-cyrillic-600.woff2", "font-caveat-cyrillic-ext-600.woff2", "font-caveat-latin-600.woff2"];
 
