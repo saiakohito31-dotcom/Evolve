@@ -436,6 +436,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
   <div class="stage">
     <main class="screen" id="screen">
       <section class="view" id="vToday">
+        <div class="seg" id="homeMode" style="align-self:flex-start"><button type="button" data-v="home">🏠 Нүүр</button><button type="button" data-v="more">✨ Дадал ба дүн</button></div>
         <div class="card miss" id="missCard" hidden role="status"><div class="row" style="justify-content:space-between"><div class="label">⏰ Алдсан сануулга</div><button class="btn ghost sm" id="missClose" type="button">Ойлголоо</button></div><div id="missList"></div></div>
         <div class="hero" aria-live="polite">
           <div class="hrow"><div style="min-width:0;flex:1"><div class="label" id="nowLabel">Одоо</div><div class="title" id="nowTitle">—</div></div><div id="heroRing" class="hring"></div></div>
@@ -1383,7 +1384,7 @@ function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null
   $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
   $("backBtn").hidden=!(["vNotes","vEditor","vSettings","vNotesHome","vTrade","vLife"].includes(v));$("setBtn").hidden=v==="vSettings";
   const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
-  if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderGoals();renderAlloc();renderStats();renderTop()}
+  if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderGoals();renderAlloc();renderStats();renderTop();setHome()}
   if(v==="vCal"){renderCalMode()}
   if(v!=="vToday"&&!(v==="vCal"&&calMode==="month"))$("parking").appendChild($("dayBlock"));if(v==="vHabits")renderHGrid();if(v==="vInsights")renderInsights();
   if(v==="vNotesHome")renderFolders();if(v==="vNotes")renderNotes();if(v==="vEditor")renderEditor();if(v==="vLife")renderLife();if(v==="vTrade")renderJournal();if(v==="vSettings")renderSettings();syncHist()}
@@ -2072,6 +2073,16 @@ function openProfile(){const P=profO();if(!P.since){P.since=ymd(today0());save()
   const row=mkE("div","row");const x=mkE("button","btn","Хаах");x.type="button";x.onclick=()=>closeModal();const g=mkE("button","btn ghost","Тохиргоо");g.type="button";g.onclick=()=>{closeModal();go({tab:"settings",back:{tab:"today"}})};row.append(x,g);box.appendChild(row);
   if(openSheetEl!==$("onb"))openModal($("onb"))}
 (function(){const b=$("profBtn");if(b)b.onclick=openProfile;const s=document.createElement("style");s.textContent=".pf-top{display:flex;justify-content:center;margin-top:4px}.pf-ring{width:112px;height:112px;border-radius:50%;padding:5px;display:grid;place-items:center;box-shadow:var(--glow)}.pf-ava{width:100%;height:100%;border-radius:50%;border:0;background:var(--surface);color:var(--ink);font-size:46px;font-weight:700}.pf-name{text-align:center;font-size:20px!important;font-weight:700;background:transparent!important;border-color:transparent!important}.pf-name:focus{border-color:var(--line)!important}.pf-motto{text-align:center;color:var(--muted)}.pf-stats{display:grid;grid-template-columns:repeat(3,1fr);border:1px solid var(--line);border-radius:16px;padding:12px 4px;background:var(--surface)}.pf-cell{display:flex;flex-direction:column;align-items:center;gap:2px;border-right:1px solid var(--line)}.pf-cell:last-child{border:0}.pf-cell small{font-size:10.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}.pf-cell b{font-size:20px}.pf-cell span{font-size:11px;color:var(--muted)}.pf-tiles{display:grid;grid-template-columns:1fr 1fr;gap:8px}.pf-tile{border:1px solid var(--line);border-radius:14px;padding:10px 12px;background:var(--surface);display:flex;flex-direction:column}.pf-tile b{font-size:20px}.pf-tile small{color:var(--muted);font-size:12px}.pf-heat{display:grid;grid-template-columns:repeat(14,1fr);gap:4px}.pf-heat i{aspect-ratio:1;border-radius:4px;background:var(--line)}.pf-heat i.part{background:var(--accent)}.pf-heat i.full{background:var(--accent);box-shadow:var(--glow)}";document.head.appendChild(s)})();
+
+// ---- Today split: "Нүүр" (goals, week strip, day plan) vs "Дадал ба дүн" (everything else)
+let homeMode=lsg("wp-home","home")==="more"?"more":"home";
+function setHome(m){if(m)homeMode=m;lss("wp-home",homeMode);const mv=homeMode==="more";
+  const onlyHome=[$("goalCard"),$("week"),$("daySlotToday")];
+  const onlyMore=[document.querySelector("#vToday .hero"),$("qaForm"),$("rvBanner"),$("habits")&&$("habits").parentElement,$("coachCard"),$("allocCard"),$("statCard"),$("cdCard")];
+  onlyHome.forEach(e=>e&&e.classList.toggle("hm-off",mv));onlyMore.forEach(e=>e&&e.classList.toggle("hm-off",!mv));
+  $("homeMode").querySelectorAll("button").forEach(b=>b.setAttribute("aria-selected",b.dataset.v===homeMode))}
+$("homeMode").querySelectorAll("button").forEach(b=>b.onclick=()=>setHome(b.dataset.v));
+(function(){const s=document.createElement("style");s.textContent=".hm-off{display:none!important}";document.head.appendChild(s)})();
 renderAll();setInterval(()=>{tick()},5000);initStore();
 </script>
 </body>
