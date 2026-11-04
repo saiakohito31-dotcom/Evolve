@@ -953,7 +953,7 @@ function migrate(p){if(!p||typeof p!=="object"||!Array.isArray(p.items))return n
   if(p.goals!=null)p.goals=(Array.isArray(p.goals)?p.goals:[]).filter(isO).slice(0,20).map(g=>({id:str(g.id||uid(),40),title:str(g.title,60),hids:(Array.isArray(g.hids)?g.hids:[]).map(x=>str(x,40)).slice(0,30),start:D.test(String(g.start))?String(g.start):"",date:D.test(String(g.date))?String(g.date):"",perWeek:Math.min(7,Math.max(1,Math.round(+g.perWeek)||5)),ms:(Array.isArray(g.ms)?g.ms:[]).filter(isO).slice(0,8).map(m=>({id:str(m.id||uid(),40),t:str(m.t,50),d:m.d?1:0}))}));
   if(p.settings&&isO(p.settings)){const B=p.settings.budget;if(B!=null){const o={};if(isO(B))Object.keys(B).slice(0,40).forEach(k=>{const v=Math.round(+B[k]);if(v>0&&v<=100)o[str(k,40)]=v});p.settings.budget=o}
     if(p.settings.coachM!=null&&!/^\d{2}:\d{2}$/.test(String(p.settings.coachM)))p.settings.coachM="08:00";if(p.settings.coachE!=null&&!/^\d{2}:\d{2}$/.test(String(p.settings.coachE)))p.settings.coachE="21:00"}
-  if(p.profile!=null){const P=isO(p.profile)?p.profile:{};p.profile={name:typeof P.name==="string"?P.name.slice(0,24):"",emoji:typeof P.emoji==="string"?P.emoji.slice(0,8):"",role:["student","worker","pupil","other"].includes(P.role)?P.role:"",motto:typeof P.motto==="string"?P.motto.slice(0,60):"",since:D.test(String(P.since))?String(P.since):""}}
+  if(p.profile!=null){const P=isO(p.profile)?p.profile:{};p.profile={name:typeof P.name==="string"?P.name.slice(0,24):"",emoji:typeof P.emoji==="string"?P.emoji.slice(0,8):"",role:["student","worker","pupil","other"].includes(P.role)?P.role:"",birth:(typeof P.birth==="string"&&D.test(P.birth)&&+P.birth.slice(0,4)>=1900&&P.birth<=ymd(new Date()))?P.birth:"",skip:P.skip?1:0,motto:typeof P.motto==="string"?P.motto.slice(0,60):"",since:D.test(String(P.since))?String(P.since):""}}
   if(p.habits&&isO(p.habits)&&Array.isArray(p.habits.list)){const L=p.habits.list,lg=p.habits.log;const untouched=!lg||(isO(lg)&&!Object.keys(lg).length);
     const DEFN={h1:"💪 Фитнес",h2:"😴 24:00-с өмнө унтах",h3:"📓 Журнал бөглөх"};
     if(untouched)p.habits.list=L.filter(h=>!(h&&DEFN[h.id]&&h.name===DEFN[h.id]))}
@@ -2056,6 +2056,8 @@ function renderStats(){const c=$("statCard");if(!c)return;const t=totals();c.hid
 
 // ---- profile
 const AVA=["😀","😎","🦊","🐯","🦁","🐼","🐺","🦅","🐉","🔥","⚡","🌟","🚀","🎯","📚","💪","🧠","🌱","🏔️","🐎","🦉","🎓","💼","🎒"];
+const okBirth=v=>{if(!/^\d{4}-\d{2}-\d{2}$/.test(v||""))return false;const d=parse(v);return d instanceof Date&&!isNaN(d)&&ymd(d)===v&&d<=new Date()&&d.getFullYear()>=1900};
+const ageOf=v=>{if(!okBirth(v))return null;const b=parse(v),n=new Date();let a=n.getFullYear()-b.getFullYear();if(n.getMonth()<b.getMonth()||(n.getMonth()===b.getMonth()&&n.getDate()<b.getDate()))a--;return a};
 const profO=()=>{if(!plan.profile||typeof plan.profile!=="object")plan.profile={};return plan.profile};
 function dayFrac(d){const L=H().list;return L.length?L.filter(h=>hitOn(d,h.id)).length/L.length:0}
 function openProfile(){const P=profO();if(!P.since){P.since=ymd(today0());save()}const box=$("onbBody");box.innerHTML="";const t=totals();const sc=consScore();
@@ -2065,6 +2067,8 @@ function openProfile(){const P=profO();if(!P.since){P.since=ymd(today0());save()
   const pick2=mkE("div","pr-chips");pick2.hidden=true;AVA.forEach(e=>{const b=mkE("button","hb",e);b.type="button";b.onclick=()=>{P.emoji=e;save();openProfile()};pick2.appendChild(b)});av.onclick=()=>{pick2.hidden=!pick2.hidden};box.appendChild(pick2);
   const nm=mkE("input");nm.type="text";nm.maxLength=24;nm.value=P.name||"";nm.placeholder="Нэрээ бич";nm.className="pf-name";nm.setAttribute("aria-label","Нэр");nm.onchange=()=>{P.name=nm.value.trim().slice(0,24);save();if(!P.emoji)av.textContent=(P.name||"?").charAt(0).toUpperCase()};box.appendChild(nm);
   const rl=mkE("div","pr-chips");rl.style.justifyContent="center";Object.entries(PERSONA).forEach(([k,v])=>{const b=mkE("button","hb",v.ic+" "+v.name);b.type="button";b.setAttribute("aria-pressed",P.role===k);b.onclick=()=>{P.role=P.role===k?"":k;save();openProfile()};rl.appendChild(b)});box.appendChild(rl);
+  const bd=mkE("input");bd.type="date";bd.max=ymd(new Date());bd.min="1900-01-01";bd.value=okBirth(P.birth)?P.birth:"";bd.setAttribute("aria-label","Төрсөн огноо");const agl=mkE("p","pr-note",ageOf(P.birth)!=null?ageOf(P.birth)+" нас":"Төрсөн огноо (заавал биш)");agl.style.textAlign="center";
+  bd.onchange=()=>{if(bd.value&&!okBirth(bd.value)){toast("Огноо буруу");bd.value=P.birth||"";return}P.birth=bd.value||"";save();agl.textContent=ageOf(P.birth)!=null?ageOf(P.birth)+" нас":"Төрсөн огноо (заавал биш)"};box.append(bd,agl);
   const mo=mkE("input");mo.type="text";mo.maxLength=60;mo.value=P.motto||"";mo.placeholder="Миний уриа: …";mo.className="pf-motto";mo.setAttribute("aria-label","Уриа");mo.onchange=()=>{P.motto=mo.value.trim().slice(0,60);save()};box.appendChild(mo);
   const st=mkE("div","pf-stats");const cell=(a,b,c)=>{const d=mkE("div","pf-cell");d.append(mkE("small",null,c),mkE("b",null,a),mkE("span",null,b));st.appendChild(d)};
   cell("🔥 "+perfectStreak(),"өдөр","Streak");cell(sc.now==null?"—":sc.now+"%","14 хоног","Хийсэн хувь");
@@ -2113,6 +2117,24 @@ function insMgr(){const ch=$("insChips");if(!ch)return;let m=$("insMgr");if(!m){
       m.appendChild(mkE("div","hint","Устгахад тухайн дадлын түүх, зорилгод холбосон холбоос мөн арилна."))}}
   else{insDel=false}}
 {const _ri=renderInsights;renderInsights=function(){_ri.apply(this,arguments);insMgr()}}
+
+// ---- first-run profile setup (name, birth date, avatar, role) — stored in plan.profile
+function openProfileSetup(next){const P=profO();const box=$("onbBody");box.innerHTML="";
+  box.append(mkE("div","onbi","👋"),mkE("h2","onbt","Танилцъя"),mkE("p","onbp","Профайлаа үүсгэнэ үү. Мэдээлэл зөвхөн таны төхөөрөмж дээр (нэвтэрсэн бол таны бүртгэлд) хадгалагдана. Дараа нь профайлаас өөрчилж болно."));
+  const ring=mkE("div","pf-ring");const av=mkE("div","pf-ava",P.emoji||"🙂");ring.appendChild(av);const top=mkE("div","pf-top");top.appendChild(ring);box.appendChild(top);
+  const em=mkE("div","pr-chips");em.style.justifyContent="center";AVA.forEach(e=>{const b=mkE("button","hb",e);b.type="button";b.setAttribute("aria-pressed",P.emoji===e);b.onclick=()=>{P.emoji=e;av.textContent=e;em.querySelectorAll(".hb").forEach(x=>x.setAttribute("aria-pressed",x===b))};em.appendChild(b)});box.appendChild(em);
+  const f=(l,el)=>{const w=mkE("div","f");w.append(mkE("label",null,l),el);return w};
+  const nm=mkE("input");nm.type="text";nm.maxLength=24;nm.value=P.name||"";nm.placeholder="Таны нэр";nm.setAttribute("aria-label","Нэр");
+  const bd=mkE("input");bd.type="date";bd.max=ymd(new Date());bd.min="1900-01-01";bd.value=okBirth(P.birth)?P.birth:"";bd.setAttribute("aria-label","Төрсөн огноо");
+  const ag=mkE("p","pr-note",""),setAg=()=>{ag.textContent=ageOf(bd.value)!=null?ageOf(bd.value)+" нас":""};bd.onchange=setAg;setAg();
+  box.append(f("Нэр",nm),f("Төрсөн он, сар, өдөр (заавал биш)",bd),ag);
+  box.appendChild(mkE("div","label","Та хэн бэ? (заавал биш)"));const rl=mkE("div","pr-chips");Object.entries(PERSONA).forEach(([k,v])=>{const b=mkE("button","hb",v.ic+" "+v.name);b.type="button";b.setAttribute("aria-pressed",P.role===k);b.onclick=()=>{P.role=P.role===k?"":k;rl.querySelectorAll(".hb").forEach((x,i)=>x.setAttribute("aria-pressed",Object.keys(PERSONA)[i]===P.role))};rl.appendChild(b)});box.appendChild(rl);
+  const ok=mkE("button","btn","Үргэлжлүүлэх ›");ok.type="button";ok.style.width="100%";
+  ok.onclick=()=>{const n=nm.value.trim();if(!n){toast("Нэрээ бичнэ үү");nm.focus();return}if(bd.value&&!okBirth(bd.value)){toast("Төрсөн огноо буруу");return}
+    P.name=n.slice(0,24);P.birth=bd.value||"";if(!P.emoji)P.emoji="";P.skip=0;if(!P.since)P.since=ymd(today0());save();renderAll();next()};
+  const sk=mkE("button","btn ghost","Алгасах");sk.type="button";sk.style.width="100%";sk.onclick=()=>{P.skip=1;save();next()};
+  box.append(ok,sk);if(openSheetEl!==$("onb"))openModal($("onb"))}
+{const _oo=openOnb;openOnb=function(step,note){if(step===1&&!note){const P=profO();if(!P.name&&!P.skip){openProfileSetup(()=>_oo(1));return}}return _oo.apply(this,arguments)}}
 renderAll();setInterval(()=>{tick()},5000);initStore();
 </script>
 </body>
