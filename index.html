@@ -542,7 +542,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
         <div class="chips" id="insChips"></div>
         <div class="card ins-hero"><span class="label" id="insLabel">Бүх дадал · сүүлийн 30 хоног</span><span class="big" id="insBig">—</span><svg class="chart" id="insChart" viewBox="0 0 340 150" preserveAspectRatio="none" role="img" aria-label="Биелэлтийн график"></svg></div>
         <div class="stats" id="insStats"></div>
-        <div class="card"><div class="label">Дадлын leaderboard · энэ сар</div><div class="lb" id="insLB"></div></div>
+        <div class="card"><div class="label">Дадлын чансаа · энэ сар</div><div class="lb" id="insLB"></div></div>
         <div class="card"><div class="label">Top streak 🔥</div><div class="lb" id="insStreak"></div></div>
         <button class="btn ghost" id="insReview" type="button">🗓 7 хоногийн дүн харах</button>
       </section>
@@ -552,7 +552,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <button type="button" class="fbtn" data-go="notes" data-tab="notes"><span class="ic">📝</span><span class="nm">Тэмдэглэл</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="trade" data-tab="trade"><span class="ic" id="jIcon2">📓</span><span class="nm" id="jTab2">Журнал</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="habits" data-tab="habits"><span class="ic">🟢</span><span class="nm">Дадал</span><span class="chev">›</span></button>
-          <button type="button" class="fbtn" data-go="life" data-tab="life"><span class="ic">🧭</span><span class="nm">Зорилго</span><span class="chev">›</span></button>
+          <button type="button" class="fbtn" data-go="life" data-tab="life"><span class="ic">🧭</span><span class="nm">Амьдралын төлөвлөгөө</span><span class="chev">›</span></button>
           <button type="button" class="fbtn" data-go="settings"><span class="ic">⚙︎</span><span class="nm">Тохиргоо</span><span class="chev">›</span></button>
         </div>
       </section>
@@ -577,7 +577,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <div class="f" style="padding:10px 0"><label for="sQ1">Журналын асуулт 1</label><input id="sQ1" type="text" maxlength="60"></div>
           <div class="f" style="padding-bottom:10px"><label for="sQ2">Журналын асуулт 2</label><input id="sQ2" type="text" maxlength="60"></div>
           <div class="f" style="padding-bottom:10px"><label for="sQ3">Журналын асуулт 3</label><input id="sQ3" type="text" maxlength="60"></div>
-          <div class="setrow"><div class="lbl">Зорилго таб</div><input type="checkbox" class="tog" id="tablife" aria-label="Зорилго таб харуулах"></div>
+          <div class="setrow"><div class="lbl">Амьдралын төлөвлөгөө таб</div><input type="checkbox" class="tog" id="tablife" aria-label="Амьдралын төлөвлөгөө таб харуулах"></div>
           <div class="setrow"><div class="lbl">Өнөөдөр таб дээр 7 хоногийн мөр</div><input type="checkbox" class="tog" id="showWeek" aria-label="7 хоногийн мөр харуулах"></div>
         </div>
         <div class="card sgroup"><h2>Ангилал</h2>
@@ -590,7 +590,7 @@ a.lnk{color:var(--accent);text-decoration:underline;text-underline-offset:3px}
           <div class="setrow"><div class="lbl">Сэрүүлэг асаалттай үед дэлгэц унтраахгүй<div class="sub2">Утас түгжигдвэл апп зогсч, сэрүүлэг дуугарахгүй. Цэнэг түргэн дуусна.</div></div><input type="checkbox" class="tog" id="keepAwake" aria-label="Дэлгэц унтраахгүй"></div>
           <div class="label" style="margin-top:8px">Сэрүүлгийн дуу</div>
           <div class="sounds" id="sSound"></div>
-          <div class="setrow"><div class="lbl">Дууны чанга</div><input type="range" id="sVol" min="0.05" max="1" step="0.05" aria-label="Дууны чанга"></div>
+          <div class="setrow"><div class="lbl">Дууны хэмжээ</div><input type="range" id="sVol" min="0.05" max="1" step="0.05" aria-label="Дууны хэмжээ"></div>
           <div class="setrow"><div class="lbl">Хэдэн удаа дуугарах<div class="sub2">“Сэрэх” гэсэн ажил 2 дахин удаан</div></div><select id="sTimes"><option value="1">1 удаа</option><option value="3">3 удаа</option><option value="5">5 удаа</option><option value="10">10 удаа</option></select></div>
         </div>
         <div class="card sgroup"><h2>Цаг ба 7 хоног</h2>
@@ -891,7 +891,7 @@ const SyncCore=(function(){
 
 const hasClaude=()=>!!(window.claude&&window.claude.use);
 const ENV={pwa:!!window.TOL_PWA,top:(()=>{try{return window.top===window.self}catch(e){return false}})()};
-const APP_VERSION="24";
+const APP_VERSION="25";
 const escH=s=>String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const isStandalone=()=>{try{return ["standalone","fullscreen","minimal-ui"].some(m=>matchMedia(`(display-mode: ${m})`).matches)||navigator.standalone===true}catch(e){return false}};
 const isIOS=()=>/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==="MacIntel"&&navigator.maxTouchPoints>1);
@@ -1097,7 +1097,7 @@ $("prevD").onclick=()=>{sel=addDays(sel,-1);view=new Date(sel.getFullYear(),sel.
 $("nextD").onclick=()=>{sel=addDays(sel,1);view=new Date(sel.getFullYear(),sel.getMonth(),1);renderDay();renderWeek();renderCal()};
 function renderDay(){const list=$("list");list.innerHTML="";const os=occ(sel);const isToday=ymd(sel)===ymd(new Date());
   $("dayTitle").textContent=(isToday?"Өнөөдөр · ":"")+`${MN[sel.getMonth()]}ын ${sel.getDate()}, ${DN[wdOf(sel)]}`;
-  if(!os.length){const li=document.createElement("li");li.className="empty";li.innerHTML=`<span>Энэ өдөр төлөвлөсөн зүйл алга.</span><span class="hint">＋ товч дарж нэмээрэй${plan.items.length?"":", эсвэл ⋯ цэснээс жишээ ачаалаарай"}.</span>`;list.appendChild(li)}
+  if(!os.length){const li=document.createElement("li");li.className="empty";li.innerHTML=`<span>Энэ өдөр төлөвлөсөн зүйл алга.</span><span class="hint">＋ товч дарж нэмээрэй${plan.items.length?"":", эсвэл ⋯ цэснээс жишээ ачаалаарай"}.</span>`;if(!plan.items.length){const r=document.createElement("div");r.className="row";r.style.cssText="gap:8px;justify-content:center;margin-top:12px;flex-wrap:wrap";const b1=document.createElement("button");b1.type="button";b1.className="btn";b1.textContent="＋ Ажил нэмэх";b1.onclick=()=>openEvent(null);const b2=document.createElement("button");b2.type="button";b2.className="btn";b2.textContent="🎯 Зорилго тодорхойлох";b2.onclick=()=>go({tab:"goals"});r.append(b1,b2);li.appendChild(r)}list.appendChild(li)}
   let dn=0;os.forEach(o=>{const it=o.i;const isDone=!!plan.done[o.key];if(isDone)dn++;
     const li=document.createElement("li");li.className=isDone?"done":"";li.dataset.key=o.key;li.style.setProperty("--k",catVar(it.cat));
     const tm=document.createElement("div");tm.className="tm";tm.innerHTML=`${fmtT(it.start)}<br>${fmtT(it.end)}`;
@@ -1160,7 +1160,7 @@ $("planName").oninput=()=>{plan.name=$("planName").value;save()};
 function loadSample(){const t=new Date();const mon=addDays(t,-wdOf(t));
   plan.items=SAMPLE.map(x=>({id:uid(),title:x.title,date:ymd(addDays(mon,x.day)),start:x.start,end:x.end,cat:x.cat,remind:x.remind,repeat:"weekly",days:[x.day],skip:[]}));plan.done={};save();renderAll()}
 arm($("sampleBtn"),"Солигдоно — дахин дар",()=>{loadSample();go({tab:"today"});toast("Жишээ ачаалагдлаа")});
-arm($("clearBtn"),"Дахин дар",()=>{plan.items=[];plan.done={};save();renderAll();toast("Календарь хоосорлоо")});
+arm($("clearBtn"),"Дахин дар",()=>{plan.items=[];plan.done={};save();renderAll();toast("Календарь хоослогдлоо")});
 // ICS
 function icsText(){const esc=s=>String(s).replace(/\\/g,"\\\\").replace(/;/g,"\\;").replace(/,/g,"\\,").replace(/\r?\n/g,"\\n");
   const enc=new TextEncoder();
@@ -1182,7 +1182,7 @@ async function saveFile(name,blob){
   if(isIOS()&&navigator.canShare){try{const f=new File([blob],name,{type:blob.type});if(navigator.canShare({files:[f]})){await navigator.share({files:[f],title:name});return}}catch(e){if(e&&e.name==="AbortError")return}}
   const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download=name;a.rel="noopener";document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),60000)}
 $("icsBtn").onclick=async()=>{if(!plan.items.length){toast("Эхлээд календарьт ажил нэмнэ үү.");return}
-  try{await saveFile("tolovlogoo.ics",new Blob([icsText()],{type:"text/calendar"}));toast("Хадгалагдлаа — утасныхаа календарьт нээгээрэй")}catch(e){toast("Файл хадгалагдсангүй.")}};
+  try{await saveFile("evolve.ics",new Blob([icsText()],{type:"text/calendar"}));toast("Хадгалагдлаа — утасныхаа календарьт нээгээрэй")}catch(e){toast("Файл хадгалагдсангүй.")}};
 // ===== alarm + tick
 let audio=null,alarmOn=false,wake=null;const fired=new Set();
 function ensureAudio(){try{audio=audio||new (window.AudioContext||window.webkitAudioContext)();audio.resume()}catch(_){}return audio}
@@ -1386,7 +1386,7 @@ function renderRoute(back){const v=currentView();if(v==="vNotesHome"){nav.f=null
   VIEWS.forEach(id=>{const el=$(id);const on=id===v;el.hidden=!on;if(on){el.classList.toggle("back",!!back);el.style.animation="none";el.offsetHeight;el.style.animation=""}});
   document.querySelectorAll(".tabbar button").forEach(b=>b.setAttribute("aria-selected",b.dataset.tab===nav.tab||(b.dataset.tab==="more"&&(MORE_TABS.includes(nav.tab)||nav.tab==="settings"))));
   const fo=notes().folders.find(x=>x.id===nav.f);
-  $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Зорилго",vGoals:"Зорилго ба ахиц",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
+  $("viewTitle").textContent={vToday:plan.name||motto(),vCal:"Ажил",vNotesHome:"Тэмдэглэл",vNotes:fo?fo.name:"",vEditor:fo?fo.name:"",vLife:"Амьдралын төлөвлөгөө",vGoals:"Зорилго ба ахиц",vTrade:S().jName||"Журнал",vSettings:"Тохиргоо",vHabits:"Дадал",vInsights:"Insights",vMore:"Бусад"}[v];
   $("backBtn").hidden=!(v!=="vToday");$("setBtn").hidden=v==="vSettings";
   const fabMap={vToday:"Ажил нэмэх",vCal:"Ажил нэмэх",vNotesHome:"Хавтас нэмэх",vNotes:"Тэмдэглэл нэмэх",vLife:"Мөр нэмэх",vGoals:"Зорилго нэмэх",vTrade:"Журнал бичих",vHabits:"Дадал нэмэх"};$("fab").hidden=["vEditor","vSettings","vInsights","vMore"].includes(v);$("fab").setAttribute("aria-label",fabMap[v]||"Нэмэх");
   if(v==="vToday"){$("daySlotToday").appendChild($("dayBlock"));renderWeek();renderDay();renderHabits();renderRvBanner();renderInstBanner();renderCd();renderCoach();renderAlloc();renderStats();renderTop();setHome()}if(v==="vGoals")renderGoals();
@@ -1416,9 +1416,9 @@ function renderSettings(){const st=S();$("planName").value=plan.name||"";
   $("sRemind").value=String(st.remind);$("sRemind").onchange=()=>{st.remind=+$("sRemind").value;save()};
   $("sVol").value=st.vol;$("sVol").oninput=()=>{st.vol=+$("sVol").value;save()};$("sVol").onchange=()=>beep(1);
   $("sTimes").value=String(st.times);$("sTimes").onchange=()=>{st.times=+$("sTimes").value;save()};
-  const sb=$("sSound");sb.innerHTML="";SOUNDS.forEach((nm,k)=>{const l=document.createElement("label");l.innerHTML=`<input type="radio" name="snd" id="snd${k}" ${st.sound===k?"checked":""}><span class="nm">${nm}</span>`;
+  const sb=$("sSound");sb.innerHTML="";let sndOpen=false;const sndMore=document.createElement("button");sndMore.type="button";sndMore.className="btn ghost sm";sndMore.style.cssText="margin-top:8px;align-self:flex-start";const sndVis=()=>{sb.querySelectorAll("label").forEach(x=>{x.hidden=!sndOpen&&+x.dataset.k!==st.sound});sndMore.textContent=sndOpen?"Хураах ▴":"Бусад дуу ▾";sndMore.setAttribute("aria-expanded",sndOpen?"true":"false")};sndMore.onclick=()=>{sndOpen=!sndOpen;sndVis()};SOUNDS.forEach((nm,k)=>{const l=document.createElement("label");l.innerHTML=`<input type="radio" name="snd" id="snd${k}" ${st.sound===k?"checked":""}><span class="nm">${nm}</span>`;
     const pb=document.createElement("button");pb.type="button";pb.className="btn ghost sm";pb.textContent="▶ Сонсох";pb.onclick=e=>{e.preventDefault();beep(1,k)};l.appendChild(pb);
-    l.querySelector("input").onchange=()=>{st.sound=k;save();beep(1,k)};sb.appendChild(l)});
+    l.dataset.k=k;l.querySelector("input").onchange=()=>{st.sound=k;save();beep(1,k);sndOpen=false;sndVis()};sb.appendChild(l)});sb.appendChild(sndMore);sndVis();
   renderCats();["sampleBtn","clearBtn"].forEach(id=>disarm($(id)));setStatus();renderAcct();renderAppCard();renderCdSettings();renderErrCard();renderPurSettings();
   const ka=$("keepAwake");ka.checked=st.keepAwake!==false;ka.onchange=()=>{st.keepAwake=ka.checked;save();if(ka.checked)holdWake();else{try{wake&&wake.release()}catch(e){}wake=null}}}
 function renderCats(){const st=S();const box=$("catList");box.innerHTML="";
@@ -1769,7 +1769,7 @@ async function doInstall(){
   await askDialog({title:"Утсандаа суулгах",text:isIOS()?"Safari дээр Хуваалцах (⬆︎) товчийг дараад «Нүүр дэлгэцэд нэмэх» (Add to Home Screen)-ийг сонгоно.":"Хөтчийн цэснээс (⋮) «Апп суулгах» эсвэл «Нүүр дэлгэцэд нэмэх»-ийг сонгоно. Android дээр Chrome, компьютер дээр Chrome/Edge хамгийн сайн ажиллана.",buttons:[{label:"Ойлголоо",value:"ok",primary:true}]})}
 function renderInstBanner(){const b=$("instBanner");if(!b)return;b.hidden=!(ENV.pwa&&!isStandalone()&&!lsg("wp-inst-no","")&&!lsg("wp-installed","")&&(deferredInstall||isIOS())&&SyncCore.hasUserData(plan))}
 $("instGo").onclick=doInstall;$("instX").onclick=()=>{lss("wp-inst-no","1");renderInstBanner()};
-async function checkUpdate(){try{const reg=await navigator.serviceWorker.getRegistration();if(!reg){toast("Шинэчлэх зүйл олдсонгүй");return}await reg.update();toast(reg.installing||reg.waiting?"Шинэ хувилбар татаж байна…":"Та хамгийн сүүлийн хувилбар дээр байна ✓")}catch(e){toast("Шалгаж чадсангүй (интернэт?)")}}
+async function checkUpdate(){try{const reg=await navigator.serviceWorker.getRegistration();if(!reg){toast("Шинэчлэх зүйл олдсонгүй");return}await reg.update();toast(reg.installing||reg.waiting?"Шинэ хувилбар татаж байна…":"Та хамгийн сүүлийн хувилбар дээр байна ✓")}catch(e){toast("Шалгаж чадсангүй (интернэт холболт?)")}}
 if(ENV.pwa&&"serviceWorker" in navigator){
   const hadCtl=!!navigator.serviceWorker.controller;
   navigator.serviceWorker.addEventListener("controllerchange",()=>{if(hadCtl&&!swReloading)toast("↻ Шинэ хувилбар ирлээ",{label:"Шинэчлэх",fn:()=>{swReloading=true;location.reload()}})});
@@ -1849,11 +1849,11 @@ function renderErrCard(){const sub=$("errSub");if(!sub)return;let a=[];try{a=JSO
   sub.textContent=a.length?a.length+" алдаа · сүүлийнх "+new Date(a[a.length-1].t).toLocaleString():"Алдаа бүртгэгдээгүй ✓"}
 function errText(){let a=[];try{a=JSON.parse(localStorage.getItem("wp-errlog")||"[]")}catch(e){}
   return "Evolve v"+APP_VERSION+"\n"+navigator.userAgent+"\n"+a.map(x=>new Date(x.t).toISOString()+" "+x.m+" "+x.w).join("\n")}
-$("errCopy").onclick=async()=>{try{await navigator.clipboard.writeText(errText());toast("Хууллаа — илгээхэд бэлэн")}catch(e){toast("Хуулж чадсангүй")}};
+$("errCopy").onclick=async()=>{try{await navigator.clipboard.writeText(errText());toast("Хуулагдлаа — илгээхэд бэлэн")}catch(e){toast("Хуулж чадсангүй")}};
 $("errClr").onclick=()=>{try{localStorage.removeItem("wp-errlog")}catch(e){}renderErrCard();toast("Цэвэрлэгдлээ")};
 // share (installed web app only: the Claude preview link is private)
 const _rac=renderAppCard;renderAppCard=function(){_rac();if(!ENV.pwa)return;const box=$("appBody");if(!box)return;const r=document.createElement("div");r.className="setrow";
-  const l=document.createElement("div");l.className="lbl";l.textContent="📤 Найздаа илгээх";const s=document.createElement("div");s.className="sub2";s.textContent="Линкийг хуваалцана. Тэд өөрийн бүртгэл, өөрийн төлөвлөгөөгөөр ашиглана";l.appendChild(s);
+  const l=document.createElement("div");l.className="lbl";l.textContent="📤 Найздаа илгээх";const s=document.createElement("div");s.className="sub2";s.textContent="Линкийг хуваалцана. Тэд өөрийн бүртгэлээр нэвтэрч, өөрийн төлөвлөгөөгөө ашиглана";l.appendChild(s);
   const b=document.createElement("button");b.type="button";b.className="btn sm";b.textContent="Илгээх";
   b.onclick=async()=>{const url=location.origin+location.pathname.replace(/[^/]*$/,"");try{if(navigator.share)await navigator.share({title:document.title,text:"Өдөр, 7 хоног, дадал, тэмдэглэл — нэг дор. Сэрүүлэгтэй төлөвлөгч:",url})
     else{await navigator.clipboard.writeText(url);toast("Линк хуулагдлаа")}}catch(e){}};r.append(l,b);box.appendChild(r)};
@@ -1887,8 +1887,8 @@ function goalInfo(g){const hids=(g.hids||[]).filter(id=>hName(id)),n=hids.length
   return{pct,done,target:tgt,left:null,on:pct>=80,late:Math.max(0,Math.ceil(tgt*0.8-d2)),over:false,hit:false,n}}
 
 // ---- messages (rule-based, from real data)
-const MORN=["Бага багаар эхэл — том үр дүнд хүрнэ. Ирээдүйн том зорилгодоо өнөөдрөөс жижиг алхмаар ойртоорой: өдөр бүр 10 минут ном унш, 10 минут дасгал хий.","Сайн уу! Том зорилго жижиг алхмуудаас бүтдэг — өнөөдөр гурвыг нь хийцгээе.","Өдөр шинээр эхэллээ. Төгс байх шаардлагагүй, зүгээр л эхэл.","Өчигдрөөс сайн байх хангалттай. Эхний алхмаа одоо хий.","Тууштай байх нь авьяасаас илүү ялдаг. Өнөөдөр нэг л алхам хий."];
-const EVE=["Өдөр дууслаа. Хийснээ хүлээн зөвшөөр, хийгээгүйгээ маргааш нөхөх бус хялбарчил.","Өнөөдрийн дүнг 1 минут эргэн харцгаая: юу бүтсэн бэ, юу саад болсон бэ?","Амарна гэдэг хэзээ ч алдаа биш. Маргаашийн эхний алхмаа одоо сонго."];
+const MORN=["Бага багаар эхэл — том үр дүнд хүрнэ. Ирээдүйн том зорилгодоо өнөөдрөөс жижиг алхмаар ойртоорой: өдөр бүр 10 минут ном унш, 10 минут дасгал хий.","Сайн уу! Том зорилго жижиг алхмуудаас бүтдэг — өнөөдөр гурвыг нь хийцгээе.","Өдөр шинээр эхэллээ. Төгс байх шаардлагагүй, зүгээр л эхэл.","Өчигдрөөс арай дээр байхад хангалттай. Эхний алхмаа одоо хий.","Тууштай байх нь авьяасаас илүү үр дүн авчирдаг. Өнөөдөр нэг л алхам хий."];
+const EVE=["Өдөр дууслаа. Хийснээ үнэл. Хийгээгүйгээ маргааш нөхөх гэж бүү яар — харин хялбарчил.","Өнөөдрийн дүнг 1 минут эргэн харцгаая: юу бүтсэн бэ, юу саад болсон бэ?","Амрах нь алдаа биш. Маргаашийн эхний алхмаа одоо сонго."];
 function streakHit(){const out=[];H().list.forEach(h=>{if(!hitOn(dOff(0),h.id))return;const s=streak(h.id);if([3,7,14,21,30,50,100,365].includes(s))out.push([h.name,s])});return out}
 function missTwice(){const out=[];H().list.forEach(h=>{if(hitOn(dOff(0),h.id)||hitOn(dOff(-1),h.id))return;if(hitOn(dOff(-2),h.id)||hitOn(dOff(-3),h.id))out.push(h.name)});return out}
 function comeback(){const out=[];H().list.forEach(h=>{if(hitOn(dOff(0),h.id))return;let last=null;for(let k=1;k<=30;k++)if(hitOn(dOff(-k),h.id)){last=k;break}
@@ -1920,7 +1920,7 @@ function renderCoach(){const c=$("coachCard");if(!c)return;const box=$("coachBod
   else{const b=mkE("button","btn sm","📓 Өдрөө дүгнэх");b.type="button";b.onclick=()=>go({tab:"trade"});box.appendChild(b)}
   if(H().list.some(isPH))box.appendChild(mkE("p","pr-note warn","✏️ Өдөр болгон хийж хэвших зүйлээ нэрлээрэй. Жишээ: «📚 30 мин ном унших», «💪 10 мин дасгал», «💧 2 литр ус»."));
   const hits=streakHit();hits.forEach(([n,s])=>box.appendChild(mkE("p","pr-note","🔥 «"+n+"» "+s+" өдөр дараалан! Гайхалтай.")));
-  missTwice().slice(0,2).forEach(n=>box.appendChild(mkE("p","pr-note warn","⚠️ «"+n+"»-г өчигдөр алгассан. Нэг удаа алдаж болно — хоёр дахин бүү алд.")));
+  missTwice().slice(0,2).forEach(n=>box.appendChild(mkE("p","pr-note warn","⚠️ «"+n+"»-г өчигдөр алгассан. Нэг удаа алгасаж болно — хоёр өдөр дараалан бүү алгас.")));
   comeback().slice(0,2).forEach(([n,k])=>box.appendChild(mkE("p","pr-note","🌱 «"+n+"» "+k+" өдөр зогссон. Буцаж ирэхэд хэзээ ч оройтоогүй — өнөөдөр хамгийн жижиг хувилбараар (2 минут) эхэл.")))}
 
 function renderGoals(){const c=$("goalCard");if(!c)return;const box=$("goalList");box.innerHTML="";const L=goalsL();
@@ -2009,7 +2009,7 @@ function openGuide(step,st){st=st||{p:"student",keys:[],m:3};const box=$("onbBod
   const full=b=>{b.type="button";b.style.width="100%";return b};
   if(step===1){box.append(mkE("div","onbi","🎯"),mkE("h2","onbt","Та хэн бэ?"),mkE("p","onbp","Таны насанд тохирсон зорилго, дадлыг санал болгоно. Дараа нь бүгдийг нь өөрчилж болно."));
     const L=mkE("div","flist");Object.entries(PERSONA).forEach(([k,P])=>{const b=mkE("button","fbtn wrap");b.type="button";b.append(mkE("span","ic",P.ic),mkE("span","nm",P.name),mkE("span","chev","›"));b.onclick=()=>{st.p=k;st.keys=P.goals.slice(0,3).map(g=>g.k);openGuide(2,st)};L.appendChild(b)});box.appendChild(L)}
-  else if(step===2){const P=PERSONA[st.p];box.append(mkE("h2","onbt","Зорилгоо сонго"),mkE("p","onbp","Нэг дор 3-аас илүүгүй бол амжилт өндөр. Сонгосон бүрт дадал + хуваарийн цаг үүснэ."));
+  else if(step===2){const P=PERSONA[st.p];box.append(mkE("h2","onbt","Зорилгоо сонго"),mkE("p","onbp","Нэг дор 3-аас илүүгүй зорилго сонговол амжилт өндөр. Сонгосон бүрт дадал + хуваарийн цаг үүснэ."));
     const L=mkE("div","pr-chips");P.goals.forEach(g=>{const b=mkE("button","hb",g.t);b.type="button";b.setAttribute("aria-pressed",st.keys.includes(g.k));b.onclick=()=>{const i=st.keys.indexOf(g.k);i>=0?st.keys.splice(i,1):st.keys.push(g.k);openGuide(2,st)};L.appendChild(b)});box.appendChild(L);
     if(st.keys.length>3)box.appendChild(mkE("p","pr-note warn","⚠️ "+st.keys.length+" зорилго нэг дор — хэт олон. 3 хүртэл сонгох нь тууштай байхад илүү."));
     box.appendChild(mkE("div","label","Хэдэн сарын дотор хүрэх вэ?"));const m=mkE("select");[1,2,3,6,12].forEach(v=>{const o=mkE("option",null,v+" сар");o.value=v;if(v===st.m)o.selected=true;m.appendChild(o)});m.onchange=()=>{st.m=+m.value};box.appendChild(m);
@@ -2022,7 +2022,7 @@ function openGuide(step,st){st=st||{p:"student",keys:[],m:3};const box=$("onbBod
 // ---- settings card: coach times + time budget
 function renderPurSettings(){const box=$("purBody");if(!box)return;box.innerHTML="";const st=S();
   const r1=mkE("div","setrow");const l=mkE("div","lbl","Өглөө/оройн мэдэгдэл");l.appendChild(mkE("div","sub2","Өглөө «өнөөдрийн гол 3», орой «өдрийн дүн» мэдэгдэл. Апп нээлттэй/сэрүүлэг асаалттай үед ажиллана."));
-  const cb=mkE("input");cb.type="checkbox";cb.className="tog";cb.checked=st.coach!==false;cb.setAttribute("aria-label","Урам өгөх мэдэгдэл");cb.onchange=()=>{st.coach=cb.checked;save()};r1.append(l,cb);box.appendChild(r1);
+  const cb=mkE("input");cb.type="checkbox";cb.className="tog";cb.checked=st.coach!==false;cb.setAttribute("aria-label","Сануулах мэдэгдэл");cb.onchange=()=>{st.coach=cb.checked;save()};r1.append(l,cb);box.appendChild(r1);
   const tm=(lbl,key)=>{const r=mkE("div","setrow");r.appendChild(mkE("div","lbl",lbl));const i=mkE("input");i.type="time";i.value=st[key];i.style.width="auto";i.onchange=()=>{if(/^\d{2}:\d{2}$/.test(i.value)){st[key]=i.value;save()}};r.appendChild(i);box.appendChild(r)};
   tm("Өглөөний цаг","coachM");tm("Оройн цаг","coachE");
   const bl=mkE("div","label","Цагийн хуваарилалтын зорилт (%, 7 хоногт)");bl.style.marginTop="14px";box.appendChild(bl);const B=st.budget=st.budget&&typeof st.budget==="object"?st.budget:{};const tot=mkE("div","hint");
@@ -2030,7 +2030,7 @@ function renderPurSettings(){const box=$("purBody");if(!box)return;box.innerHTML
   st.cats.forEach(c=>{const r=mkE("div","setrow");r.appendChild(mkE("div","lbl",c.name));const i=mkE("input");i.type="number";i.min=0;i.max=100;i.step=5;i.style.width="80px";i.value=B[c.name]||"";i.placeholder="0";i.setAttribute("aria-label",c.name+" зорилт %");
     i.onchange=()=>{const v=Math.min(100,Math.max(0,Math.round(+i.value||0)));if(v)B[c.name]=v;else delete B[c.name];i.value=v||"";save();upd();renderAlloc()};r.appendChild(i);box.appendChild(r)});
   upd();box.appendChild(tot);
-  const rx=mkE("div","setrow");const lx=mkE("div","lbl","Оноо, түвшин (XP)");lx.appendChild(mkE("div","sub2","Дадал +10, ажил +5, төгс өдөр +20 оноо. Дүрэмтэй тоглоом шиг хөдөлгөнө."));const cx=mkE("input");cx.type="checkbox";cx.className="tog";cx.checked=!!st.xp;cx.setAttribute("aria-label","Оноо, түвшин");cx.onchange=()=>{st.xp=cx.checked;save();renderTop();renderStats()};rx.append(lx,cx);box.insertBefore(rx,box.children[3]||null);
+  const rx=mkE("div","setrow");const lx=mkE("div","lbl","Оноо, түвшин (XP)");lx.appendChild(mkE("div","sub2","Дадал +10, ажил +5, төгс өдөр +20 оноо. Өдөр тутмын ажлыг тоглоом шиг сонирхолтой болгоно."));const cx=mkE("input");cx.type="checkbox";cx.className="tog";cx.checked=!!st.xp;cx.setAttribute("aria-label","Оноо, түвшин");cx.onchange=()=>{st.xp=cx.checked;save();renderTop();renderStats()};rx.append(lx,cx);box.insertBefore(rx,box.children[3]||null);
   const g=mkE("button","btn ghost sm","🎯 Зорилго тохируулагчийг дахин ажиллуулах");g.type="button";g.onclick=()=>{go({tab:"today"});openGuide(1)};box.appendChild(g)}
 
 // ---- morning / evening nudges (fires once a day, within an hour of the chosen time)
@@ -2105,13 +2105,20 @@ function setHome(){
 
 // ---- Insights: add / remove habits in place
 let insDel=false;
-function delHabit(id){const h=H();h.list=h.list.filter(x=>x.id!==id);Object.keys(h.log).forEach(k=>{if(h.log[k]&&h.log[k][id]){delete h.log[k][id];if(!Object.keys(h.log[k]).length)delete h.log[k]}});goalsL().forEach(g=>{g.hids=(g.hids||[]).filter(x=>x!==id)});save()}
+function delHabit(id){const h=H();h.list=h.list.filter(x=>x.id!==id);Object.keys(h.log).forEach(k=>{if(h.log[k]&&h.log[k][id]){delete h.log[k][id];if(!Object.keys(h.log[k]).length)delete h.log[k]}});goalsL().forEach(g=>{g.hids=(g.hids||[]).filter(x=>x!==id)});plan.items.forEach(i=>{if(i.habit===id)i.habit=null});save()}
 function insMgr(){const ch=$("insChips");if(!ch)return;let m=$("insMgr");if(!m){m=mkE("div","card");m.id="insMgr";m.style.gap="10px";ch.parentElement.insertBefore(m,ch.nextSibling)}m.innerHTML="";
   const row=mkE("div","row");row.style.flexWrap="nowrap";const inp=mkE("input");inp.type="text";inp.maxLength=40;inp.placeholder="＋ Шинэ дадал (жишээ: 📚 30 мин ном унших)";inp.setAttribute("aria-label","Шинэ дадал");inp.style.flex="1";inp.style.minWidth="0";
   const add=mkE("button","btn sm","Нэмэх");add.type="button";
   const doAdd=()=>{const v=inp.value.trim();if(!v)return;const L=H().list;if(L.length>=30){toast("30 хүртэл дадал");return}if(L.some(x=>x.name===v)){toast("Ийм дадал байна");return}
-    const id=uid();L.push({id:"h"+id,name:v.slice(0,40),color:HCOL[L.length%HCOL.length]});save();insSel="h"+id;lss("wp-ins",insSel);renderAll()};
-  add.onclick=doAdd;inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();doAdd()}};row.append(inp,add);m.appendChild(row);
+    let tm=null;if(sch.checked){if(!ts.value||!te.value||ts.value===te.value){toast("Эхлэх, дуусах цагаа зөв сонгоно уу");return}tm=[ts.value,te.value]}
+    const id=uid();L.push({id:"h"+id,name:v.slice(0,40),color:HCOL[L.length%HCOL.length]});
+    if(tm){const cs=CATS_();plan.items.push({id:uid(),title:v.slice(0,40),date:ymd(new Date()),start:tm[0],end:tm[1],cat:cs.includes("Хувийн")?"Хувийн":(cs[0]||""),remind:S().remind,repeat:"weekly",days:[0,1,2,3,4,5,6],habit:"h"+id,skip:[]})}
+    save();insSel="h"+id;lss("wp-ins",insSel);renderAll();if(tm)toast("Дадал нэмэгдлээ, өдөр бүр "+tm[0]+"–"+tm[1]+" хуваарьт орлоо")};
+  const sr=mkE("div","row");sr.style.cssText="gap:8px;align-items:center;flex-wrap:wrap";
+  const sl=mkE("label","");sl.style.cssText="display:flex;align-items:center;gap:8px;flex:1;min-width:200px";const sch=mkE("input");sch.type="checkbox";sch.className="tog";sch.setAttribute("aria-label","Өдөр бүр хуваарьт нэмэх");sl.append(sch,mkE("span","","⏰ Өдөр бүр хуваарьт нэмэх"));
+  const ts=mkE("input");ts.type="time";ts.value="20:00";ts.setAttribute("aria-label","Эхлэх цаг");const te=mkE("input");te.type="time";te.value="20:30";te.setAttribute("aria-label","Дуусах цаг");
+  const tw=mkE("div","row");tw.style.cssText="gap:8px;align-items:center;flex-wrap:nowrap;flex:1 1 100%";[ts,te].forEach(x=>{x.style.cssText="flex:1;min-width:0;width:auto"});tw.hidden=true;tw.append(ts,mkE("span","","–"),te);sch.onchange=()=>{tw.hidden=!sch.checked};sr.append(sl,tw);
+  add.onclick=doAdd;inp.onkeydown=e=>{if(e.key==="Enter"){e.preventDefault();doAdd()}};row.append(inp,add);m.appendChild(row);m.appendChild(sr);
   if(H().list.length){const tg=mkE("button","btn ghost sm",insDel?"Болсон":"🗑 Дадал устгах");tg.type="button";tg.style.alignSelf="flex-start";tg.onclick=()=>{insDel=!insDel;insMgr()};m.appendChild(tg);
     if(insDel){H().list.forEach(x=>{const r=mkE("div","setrow");r.appendChild(mkE("div","lbl",x.name));const d=mkE("button","btn ghost sm","Устгах");d.type="button";arm(d,"Дахин дар",()=>{delHabit(x.id);renderAll()});r.appendChild(d);m.appendChild(r)});
       m.appendChild(mkE("div","hint","Устгахад тухайн дадлын түүх, зорилгод холбосон холбоос мөн арилна."))}}
